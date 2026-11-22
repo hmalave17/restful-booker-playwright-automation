@@ -61,67 +61,158 @@ restful-booker-automation/
 |-- .env.example
 </pre>
 
-<h2>3. Installation</h2>
+<h2>3. Installation and Environment Setup</h2>
 
-<h3>Prerequisites</h3>
+<h3>3.1 Prerequisites</h3>
+
+<p>Make sure the following tools are installed:</p>
 
 <ul>
-  <li>Node.js</li>
-  <li>npm</li>
-  <li>Git</li>
+  <li>Node.js (LTS version recommended).</li>
+  <li>npm (included with Node.js).</li>
+  <li>Git.</li>
 </ul>
 
-<p>Clone the repository:</p>
+<p>Verify the installations using:</p>
 
-<pre>
-git clone https://github.com/hmalave17/restful-booker-playwright-automation.git
-</pre>
+<pre><code>node --version
+npm --version
+git --version</code></pre>
+
+<h3>3.2 Clone the repository</h3>
+
+<p>Open a terminal and clone the repository:</p>
+
+<pre><code>git clone https://github.com/hmalave17/restful-booker-playwright-automation.git</code></pre>
 
 <p>Navigate to the project directory:</p>
 
-<pre>
-cd restful-booker-playwright-automation
-</pre>
+<pre><code>cd restful-booker-playwright-automation</code></pre>
 
-<p>Install dependencies:</p>
+<h3>3.3 Install dependencies</h3>
 
-<pre>
-npm ci
-</pre>
+<p>Install the project dependencies using the package-lock.json file:</p>
 
-<p>Install Playwright browsers:</p>
+<pre><code>npm ci</code></pre>
 
-<pre>
-npx playwright install
-</pre>
+<p>Install the browser binaries required by Playwright:</p>
 
-<h2>4. Environment Configuration</h2>
+<pre><code>npx playwright install</code></pre>
 
-<p>The project uses environment variables to configure the application URL and API authentication.</p>
+<p>These commands install the project dependencies and the browser binaries required to execute the automated tests.</p>
 
-<p>Create a local environment file using the example provided:</p>
+<h3>3.4 Environment Variables Configuration</h3>
 
-<pre>
-Copy-Item .env.example .env
-</pre>
+<p>The project uses environment variables to configure the application and API connection.</p>
 
-<p>Configure the following variables in the .env file:</p>
+<p>First, create your local environment configuration file from the provided template.</p>
 
-<pre>
+<h4>Windows PowerShell</h4>
+
+<pre><code>Copy-Item .env.example .env</code></pre>
+
+<h4>Linux / macOS</h4>
+
+<pre><code>cp .env.example .env</code></pre>
+
+<p>Once the file has been created, configure the following variables:</p>
+
+<pre><code>BASE_URL=https://automationintesting.online
+API_USERNAME=admin
+API_PASSWORD=password</code></pre>
+
+<h4>Option 1: Using your preferred IDE or text editor</h4>
+
+<ol>
+  <li>Open the project folder in your preferred IDE or text editor (Visual Studio Code, IntelliJ IDEA, WebStorm, Notepad, etc.).</li>
+  <li>Locate and open the <code>.env</code> file in the project root directory.</li>
+  <li>Add or update the variables using the values shown above.</li>
+  <li>Save the file.</li>
+</ol>
+
+<h4>Option 2: Using Windows PowerShell</h4>
+
+<p>From the project root directory, run the following command:</p>
+
+<pre><code>@"
 BASE_URL=https://automationintesting.online
 API_USERNAME=admin
 API_PASSWORD=password
-</pre>
+"@ | Set-Content -Encoding ascii .env</code></pre>
 
-<p>Environment variables are loaded through dotenv and centralized in:</p>
+<p>This command creates or overwrites the <code>.env</code> file with the required configuration.</p>
 
-<pre>
-src/config/environment.ts
-</pre>
+<h4>Environment Variables Description</h4>
 
-<p>The application validates the required variables during initialization and throws an error when a required value is missing.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>BASE_URL</code></td>
+      <td>Base URL of the application and API.</td>
+    </tr>
+    <tr>
+      <td><code>API_USERNAME</code></td>
+      <td>Username used for API authentication.</td>
+    </tr>
+    <tr>
+      <td><code>API_PASSWORD</code></td>
+      <td>Password used for API authentication.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><b>Note:</b> The .env file is excluded from Git. Do not commit credentials or sensitive configuration.</p>
+<h4>Important Notes</h4>
+
+<ul>
+  <li>Keep each variable on a separate line using the <code>KEY=VALUE</code> format.</li>
+  <li>Do not add brackets or quotation marks around the values.</li>
+  <li>The project loads these variables through <code>dotenv</code> and <code>src/config/environment.ts</code>.</li>
+  <li>The <code>.env</code> file is excluded from Git to prevent credentials from being committed.</li>
+  <li>Never commit real credentials or sensitive environment configuration to the repository.</li>
+  <li>The PowerShell command overwrites the existing <code>.env</code> file, if present.</li>
+</ul>
+
+<h2>4. Running Tests</h2>
+
+<p>Once the repository has been cloned, dependencies installed, Playwright browsers installed and environment variables configured, the project is ready for test execution.</p>
+
+<p>The following npm scripts are available from the project root directory:</p>
+
+<h3>4.1 Run all tests</h3>
+
+<pre><code>npm test</code></pre>
+
+<h3>4.2 Run API tests</h3>
+
+<pre><code>npm run test:api</code></pre>
+
+<h3>4.3 Run UI tests</h3>
+
+<pre><code>npm run test:ui</code></pre>
+
+<h3>4.4 Run tests using two workers</h3>
+
+<pre><code>npm run test:parallel</code></pre>
+
+<h3>4.5 Run a specific test file</h3>
+
+<p>Example:</p>
+
+<pre><code>npx playwright test tests/api/booking-create.spec.ts</code></pre>
+
+<h3>4.6 TypeScript validation</h3>
+
+<p>To validate TypeScript compilation without executing the tests:</p>
+
+<pre><code>npx tsc --noEmit</code></pre>
+
+<p><b>Platform compatibility:</b> The npm and npx commands documented in this section can be executed on Windows, Linux and macOS, provided Node.js and the required dependencies are installed.</p>
 
 <h2>5. Test Architecture</h2>
 
@@ -135,13 +226,13 @@ src/config/environment.ts
   <li>BookingApiClient: booking operations.</li>
 </ul>
 
-<p>Request and response models are maintained separately under src/api/models.</p>
+<p>Request and response models are maintained separately under <code>src/api/models</code>.</p>
 
 <p>Fixtures provide reusable API clients and authentication setup.</p>
 
 <h4>Positive Scenarios</h4>
 
-<p>File: tests/api/booking-create.spec.ts</p>
+<p>File: <code>tests/api/booking-create.spec.ts</code></p>
 
 <ol>
   <li>Generate a unique room description.</li>
@@ -155,7 +246,7 @@ src/config/environment.ts
 
 <h4>Negative Scenarios</h4>
 
-<p>File: tests/api/booking-negative.spec.ts</p>
+<p>File: <code>tests/api/booking-negative.spec.ts</code></p>
 
 <ol>
   <li>Create a room using the real API.</li>
@@ -167,11 +258,11 @@ src/config/environment.ts
   <li>Verify that the invalid booking was not persisted.</li>
 </ol>
 
-<p>Both API scenarios interact with the real backend.</p>
+<p>Both API test suites interact with the real backend.</p>
 
 <h3>5.2 UI Automation</h3>
 
-<p>File: tests/ui/booking-ui-mocked.spec.ts</p>
+<p>File: <code>tests/ui/booking-ui-mocked.spec.ts</code></p>
 
 <p>The UI scenario uses the actual application interface and Playwright network interception capabilities.</p>
 
@@ -191,59 +282,25 @@ src/config/environment.ts
 <p>The following backend requests are intercepted:</p>
 
 <ul>
-  <li>GET /api/room/{roomId}</li>
-  <li>GET /api/report/room/{roomId}</li>
-  <li>POST /api/booking</li>
+  <li><code>GET /api/room/{roomId}</code></li>
+  <li><code>GET /api/report/room/{roomId}</code></li>
+  <li><code>POST /api/booking</code></li>
 </ul>
 
-<p>Mocked responses are provided using route.fulfill().</p>
+<p>Mocked responses are provided using <code>route.fulfill()</code>.</p>
 
 <p><b>Technical decision:</b> The UI test uses a mocked backend to isolate frontend behavior and validate the outgoing booking request independently of backend availability.</p>
 
 <p>This scenario validates the frontend flow and request payload, but it does not verify actual booking persistence in the backend. Backend persistence is validated separately through API tests.</p>
 
-<h2>6. Running Tests</h2>
+<h2>6. Playwright Configuration</h2>
 
-<p>The following npm scripts are available:</p>
-
-<h3>Run all tests</h3>
-
-<pre>
-npm test
-</pre>
-
-<h3>Run API tests</h3>
-
-<pre>
-npm run test:api
-</pre>
-
-<h3>Run UI tests</h3>
-
-<pre>
-npm run test:ui
-</pre>
-
-<h3>Run tests using two workers</h3>
-
-<pre>
-npm run test:parallel
-</pre>
-
-<h3>Run a specific test file</h3>
-
-<pre>
-npx playwright test tests/api/booking-create.spec.ts
-</pre>
-
-<h2>7. Playwright Configuration</h2>
-
-<p>The main configuration is located in playwright.config.ts.</p>
+<p>The main configuration is located in <code>playwright.config.ts</code>.</p>
 
 <p>Current configuration:</p>
 
 <ul>
-  <li>Test directory: ./tests</li>
+  <li>Test directory: <code>./tests</code></li>
   <li>Parallel execution: enabled</li>
   <li>Workers: 2</li>
   <li>Test timeout: 30 seconds</li>
@@ -257,47 +314,41 @@ npx playwright test tests/api/booking-create.spec.ts
 
 <p>Parallel execution is configured using:</p>
 
-<pre>
-fullyParallel: true,
-workers: 2
-</pre>
+<pre><code>fullyParallel: true,
+workers: 2</code></pre>
 
 <p>Unique identifiers are generated when necessary to reduce conflicts between parallel test executions.</p>
 
-<h2>8. Reports and Test Evidence</h2>
+<h2>7. Reports and Test Evidence</h2>
 
 <p>Playwright generates HTML reports and execution artifacts.</p>
 
 <p>Open the HTML report:</p>
 
-<pre>
-npm run report
-</pre>
+<pre><code>npm run report</code></pre>
 
-<p>Open a trace:</p>
+<p>View an execution trace:</p>
 
-<pre>
-npx playwright show-trace test-results/&lt;test-folder&gt;/trace.zip
-</pre>
+<pre><code>npx playwright show-trace test-results/&lt;test-folder&gt;/trace.zip</code></pre>
 
 <p>The UI test also attaches additional evidence to the Playwright report:</p>
 
 <ul>
-  <li>booking-payload.json</li>
-  <li>mocked-backend-evidence.txt</li>
+  <li><code>booking-payload.json</code></li>
+  <li><code>mocked-backend-evidence.txt</code></li>
   <li>Reservation confirmation screenshot.</li>
 </ul>
 
 <p>Generated reports and test results are stored in:</p>
 
 <ul>
-  <li>playwright-report/</li>
-  <li>test-results/</li>
+  <li><code>playwright-report/</code></li>
+  <li><code>test-results/</code></li>
 </ul>
 
-<p>These directories are excluded from Git through .gitignore.</p>
+<p>These directories are excluded from Git through <code>.gitignore</code>.</p>
 
-<h2>9. Skills and AI-Assisted Development</h2>
+<h2>8. Skills and AI-Assisted Development</h2>
 
 <p>The project includes a main skill and four specialized skills created to support test automation development and maintenance.</p>
 
@@ -319,13 +370,13 @@ npx playwright show-trace test-results/&lt;test-folder&gt;/trace.zip
 <p>Additional documentation:</p>
 
 <ul>
-  <li>docs/aplicacion-skills.md: documents how the skills were applied during the project.</li>
-  <li>docs/diagnostico-skill.md: contains the skill diagnostic documentation.</li>
+  <li><code>docs/aplicacion-skills.md</code>: documents how the skills were applied during the project.</li>
+  <li><code>docs/diagnostico-skill.md</code>: contains the skill diagnostic documentation.</li>
 </ul>
 
 <p>The objective is to use these skills as reusable instructions to improve consistency and support development activities with AI tools.</p>
 
-<h2>10. Test Data Management</h2>
+<h2>9. Test Data Management</h2>
 
 <p>Test data is maintained separately from test implementation.</p>
 
@@ -341,7 +392,7 @@ npx playwright show-trace test-results/&lt;test-folder&gt;/trace.zip
 
 <p>This approach helps reduce duplicated data and avoid conflicts during parallel execution.</p>
 
-<h2>11. Design Considerations</h2>
+<h2>10. Design Considerations</h2>
 
 <ul>
   <li>API clients are separated by resource.</li>
@@ -354,7 +405,7 @@ npx playwright show-trace test-results/&lt;test-folder&gt;/trace.zip
   <li>UI mocks are intentionally maintained to isolate frontend behavior.</li>
 </ul>
 
-<h2>12. Future Improvements</h2>
+<h2>11. Future Improvements</h2>
 
 <p>Potential improvements for future iterations include:</p>
 
@@ -367,7 +418,7 @@ npx playwright show-trace test-results/&lt;test-folder&gt;/trace.zip
   <li>Improving test execution and reporting.</li>
 </ul>
 
-<h2>13. Final Notes</h2>
+<h2>12. Final Notes</h2>
 
 <p>This project was developed as a technical assessment to demonstrate practical automation testing skills using Playwright and TypeScript.</p>
 
